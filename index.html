@@ -184,7 +184,7 @@
 
   /* CASES */
   .cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-  .cases-grid.cases-3col { grid-template-columns: repeat(3, 1fr); }
+  .cases-grid.cases-3col { grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); }
   .case-card {
     background: var(--bg-alt); border-radius: 16px; padding: 36px;
     border: 1px solid var(--border); transition: all .3s; position: relative; overflow: hidden;
@@ -234,7 +234,7 @@
   .cert-item::before { content: '✓'; color: var(--green); font-weight: 700; }
 
   /* MERITS */
-  .merits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .merits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 24px; }
   .merit-card {
     padding: 28px; background: white; border: 1px solid var(--border);
     border-radius: 14px; text-align: center; transition: all .25s;
@@ -906,6 +906,10 @@
         <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         Content strategy
       </div>
+      <div class="tool-chip">
+        <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 7h3v3H7zM14 7h3M14 11h3M7 14h10"/></svg>
+        Paid Social & SEM
+      </div>
     </div>
   </div>
 </section>
@@ -1029,8 +1033,8 @@
         <div class="merit-text">
           <strong data-sv>Flerspråkig: SV · EN · ES</strong>
           <strong data-en>Multilingual: SV · EN · ES</strong>
-          <span data-sv>Flytande i svenska, engelska och spanska. Chilenskt och svenskt medborgarskap. Spanska har alltid talats hemma och testades som hemspråk med kommunikation i gymnasiet. Bodde i Chile under delar av uppväxten.</span>
-          <span data-en>Fluent in Swedish, English and Spanish. Chilean and Swedish citizenship. Spanish has always been spoken at home and was formally tested as a native language with communication in upper secondary school. Lived in Chile during parts of childhood.</span>
+          <span data-sv>Flytande i svenska, engelska och spanska. Chilenskt och svenskt medborgarskap.</span>
+          <span data-en>Fluent in Swedish, English and Spanish. Chilean and Swedish citizenship.</span>
         </div>
       </div>
     </div>
