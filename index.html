@@ -205,7 +205,7 @@
   .case-result::before { content: '↑'; color: var(--green); font-weight: 700; }
 
   /* TOOLS */
-  .tools-section { background: var(--bg-alt); }
+  .tools-section { background: var(--bg-alt); position: relative; overflow: hidden; }
   .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
   .tool-chip {
     padding: 16px 12px 12px; background: white; border: 1px solid var(--border);
@@ -217,6 +217,49 @@
   .chip-icon { width: 22px; height: 22px; color: var(--green); flex-shrink: 0; transition: color .2s; }
   .tool-chip:hover { border-color: var(--green); color: var(--green); background: var(--green-pale); }
   .tool-chip:hover .chip-icon { color: var(--green); }
+
+  /* GLOBAL BACKGROUND FLOAT — white sections only, behind all content */
+  /* White sections need a positioning context */
+  .hero, #about, #cases, #education { position: relative; }
+  /* Icon canvas sits at z:0 inside each white section */
+  .section-bg-icons {
+    position: absolute; inset: 0;
+    z-index: 0; pointer-events: none; overflow: hidden;
+  }
+  /* All real content floats above icons */
+  .hero-content, .hero-photo { position: relative; z-index: 1; }
+  #about   .section-inner,
+  #cases   .section-inner,
+  #education .section-inner { position: relative; z-index: 1; }
+
+  .bg-icon {
+    position: absolute;
+    color: var(--green);
+    opacity: 0;
+    animation: bgDrift var(--t, 14s) ease-in-out forwards;
+  }
+  @keyframes bgDrift {
+    0%   { opacity: 0;                transform: translate(0, 0)               rotate(var(--r0, 0deg)); }
+    18%  { opacity: var(--op, 0.10); }
+    80%  { opacity: var(--op, 0.10); }
+    100% { opacity: 0;                transform: translate(var(--dx,8px), var(--dy,-55px)) rotate(var(--r1, 12deg)); }
+  }
+
+  /* CHIP HOVER PARTICLES */
+  .chip-particle {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    color: var(--green);
+    animation: chipFloat var(--dur, 1.6s) ease-out forwards;
+    z-index: 0;
+  }
+  @keyframes chipFloat {
+    0%   { opacity: 0;    transform: translateY(0)     scale(var(--sc, 1)) rotate(var(--rot0, 0deg)); }
+    15%  { opacity: 0.18; }
+    80%  { opacity: 0.12; }
+    100% { opacity: 0;    transform: translateY(-90px) scale(var(--sc, 1)) rotate(var(--rot1, 15deg)); }
+  }
 
   /* EDUCATION */
   .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -462,7 +505,7 @@
     </div>
     <div class="hero-badges">
       <span class="badge" data-sv>Team- & personalansvar</span>
-      <span class="badge" data-en>Team & staff responsibility</span>
+      <span class="badge" data-en>Team &amp; people management</span>
       <span class="badge">Employer Branding</span>
       <span class="badge" data-sv>Digital affärsutveckling</span>
       <span class="badge" data-en>Digital business development</span>
@@ -522,7 +565,7 @@
         <p data-sv>Jag är halvchilenare, uppvuxen i Sverige och har bott och studerat i Kalifornien. Det har gett mig en naturlig förmåga att röra mig i olika miljöer, läsa olika målgrupper och kommunicera på ett sätt som faktiskt landar, oavsett sammanhang.</p>
         <p data-en>I'm half Chilean, grew up in Sweden, and lived and studied in California. That's given me a natural ability to move between different environments, read different audiences, and communicate in ways that actually land, regardless of context.</p>
         <p data-sv>Jag har lett digitala team, haft personalansvar och ansvarat för strategi och leverans på koncernnivå. Mina kampanjer har genererat 30% fler ansökningar för LKAB, +14,5% webbtrafik för Serneke och nått 35 miljoner unika personer i 120 länder. Inte som enskilda insatser, utan som resultat av genomtänkt strategi, rätt team och tydligt ägarskap.</p>
-        <p data-en>I've led digital teams, held staff responsibility and owned strategy and delivery at group level. My campaigns generated 30% more applications for LKAB, +14.5% web traffic for Serneke and reached 35 million unique people in 120 countries. Not as standalone efforts, but as the result of deliberate strategy, the right team and clear ownership.</p>
+        <p data-en>I've led digital teams, held people management responsibility and owned strategy and delivery at group level. My campaigns generated 30% more applications for LKAB, +14.5% more web traffic for Serneke and reached 35 million unique people in 120 countries. Not as standalone efforts, but as the result of deliberate strategy, the right team and clear ownership.</p>
         <p data-sv>Jag söker en roll där jag kan kombinera strategiskt ledarskap med ett äkta affärsfokus, i en organisation som ser marknadsföring som en tillväxtmotor, inte en stödfunktion.</p>
         <p data-en>I'm looking for a role where I can combine strategic leadership with genuine business focus, in an organization that treats marketing as a growth engine, not a support function.</p>
         <div class="lang-pills">
@@ -538,7 +581,7 @@
             <div class="trait-title" data-sv>Strategisk ledare</div>
             <div class="trait-title" data-en>Strategic leader</div>
             <div class="trait-desc" data-sv>Som tillförordnad Head of Digital hade jag personalansvar för det digitala teamet och ansvarade för leverans och prioriteringar.</div>
-            <div class="trait-desc" data-en>As acting Head of Digital, I had staff responsibility for the digital team and was accountable for delivery and priorities.</div>
+            <div class="trait-desc" data-en>As acting Head of Digital, I managed the digital team directly and was accountable for delivery and priorities.</div>
           </div>
         </div>
         <div class="trait">
@@ -593,7 +636,7 @@
           <div class="timeline-expand" data-sv>Klicka för mer →</div>
           <div class="timeline-expand" data-en>Click for more →</div>
           <div class="timeline-desc" data-sv>Ansvarar för digital affärsutveckling och partnerskap med fokus på att driva tillväxt genom strategisk försäljning och utveckling av digitala erbjudanden. Kombinerar insikter från kampanjarbete med ett kommersiellt perspektiv för att bygga långsiktiga kundrelationer och nya affärsmöjligheter.</div>
-          <div class="timeline-desc" data-en>Responsible for digital business development and partnerships with a focus on driving growth through strategic sales and development of digital offerings. Combining insights from campaign work with a commercial perspective to build long-term client relationships and new business opportunities.</div>
+          <div class="timeline-desc" data-en>Responsible for digital business development and partnerships with a focus on driving growth through strategic sales and development of digital offerings. Bringing campaign expertise together with a commercial perspective to build long-term client relationships and develop new business opportunities.</div>
         </div>
       </div>
 
@@ -608,7 +651,7 @@
           <div class="timeline-expand" data-sv>Klicka för mer →</div>
           <div class="timeline-expand" data-en>Click for more →</div>
           <div class="timeline-desc" data-sv>Klev in som Head of Digital för att täcka en föräldraledighet och tog direkt ledarskapet för ett team på tre, inklusive handledning av en LIA-praktikant. Ledde dagliga standups, satte agenda och ansvarade för teamets leverans, välmående och utveckling genom kontinuerliga 1:1-samtal. Drev strategiarbetet för nationella och internationella employer branding-kampanjer för LKAB, SEB och Saab. Valde efter uppdragets slut att söka en bredare, mer strategisk roll snarare än att konkurrera om en kollega som återvände till sin tjänst.</div>
-          <div class="timeline-desc" data-en>Stepped into Head of Digital to cover parental leave and immediately took ownership of a team of three, including mentoring an LIA intern. Led daily standups, set daily agendas and was responsible for the team's delivery, wellbeing and development through regular 1:1 conversations. Drove strategy for national and international employer branding campaigns for LKAB, SEB and Saab. After the assignment ended, chose to pursue a broader, more strategic role rather than compete for a colleague's returning position.</div>
+          <div class="timeline-desc" data-en>Stepped into Head of Digital to cover parental leave and immediately took ownership of a team of three, including mentoring a student intern on work placement. Led daily standups, set daily agendas and was responsible for the team's delivery, wellbeing and development through regular 1:1 conversations. Drove strategy for national and international employer branding campaigns for LKAB, SEB and Saab. After the assignment ended, chose to pursue a broader, more strategic role rather than compete for a colleague's returning position.</div>
         </div>
       </div>
 
@@ -638,7 +681,7 @@
           <div class="timeline-expand" data-sv>Klicka för mer →</div>
           <div class="timeline-expand" data-en>Click for more →</div>
           <div class="timeline-desc" data-sv>Helhetsansvar för Sernekes digitala strategi, varumärke och närvaro, med budgetansvar för paid social. Övergripande redaktör för koncernens webb, planerade och producerade sociala medier för Serneke-varumärket och var djupt involverad i kommunikationsarbetet kring bygget av Karlatornet. Ledde arbetet med externa byråer och interna innehållsproducenter. Implementerade AI i SEM med 14,5% ökning av webbplatsbesökare (2022) och drev mångfalds- & inkluderingsinitiativ.</div>
-          <div class="timeline-desc" data-en>Full responsibility for Serneke's digital strategy, brand and presence, with budget ownership for paid social. Overall web editor for the group, planned and produced social media content for the Serneke brand, and was deeply involved in communications around the construction of Karlatornet. Led work with external agencies and internal content producers. Implemented AI in SEM resulting in a 14.5% increase in website visitors (2022) and led diversity & inclusion initiatives.</div>
+          <div class="timeline-desc" data-en>Full responsibility for Serneke's digital strategy, brand and presence, with budget ownership for paid social. Lead web editor for the group, planned and produced social media content for the Serneke brand, and was deeply involved in communications around the construction of Karlatornet. Managed external agencies and internal content producers. Implemented AI in SEM resulting in a 14.5% increase in website visitors (2022) and led diversity & inclusion initiatives.</div>
         </div>
       </div>
 
@@ -653,7 +696,7 @@
           <div class="timeline-expand" data-sv>Klicka för mer →</div>
           <div class="timeline-expand" data-en>Click for more →</div>
           <div class="timeline-desc" data-sv>Fick uppdraget att starta och driva contentbyrån Ohmamy som växte till ett nytänkande bolag med kunder i hela Västra Götaland. Under 2020 skapade jag 2 266 inlägg och genererade en förtjänad räckvidd på 3 578 239.</div>
-          <div class="timeline-desc" data-en>Assigned to start and run the content agency Ohmamy, which grew into an innovative company with clients across western Sweden. In 2020 alone I created 2,266 posts generating an earned reach of 3,578,239.</div>
+          <div class="timeline-desc" data-en>Founded and led the content agency Ohmamy, which grew into an innovative company with clients across western Sweden. In 2020 alone I created 2,266 posts generating an earned reach of 3,578,239.</div>
         </div>
       </div>
 
@@ -668,7 +711,7 @@
           <div class="timeline-expand" data-sv>Klicka för mer →</div>
           <div class="timeline-expand" data-en>Click for more →</div>
           <div class="timeline-desc" data-sv>Ansvarade för försäljning, drift och teamledarskap för butiken i Frölunda med ett team på 10 säljare. Drev försäljning genom rådgivande kundmöten, utvecklade teamets prestation och skapade en stark kundupplevelse. Arbetade aktivt med försäljningsmål, uppföljning och strategier för ökad lönsamhet. Avancerade snabbt till att bli Sveriges yngsta butikschef vid 22 års ålder.</div>
-          <div class="timeline-desc" data-en>Responsible for sales, operations, and team leadership at the Frölunda store, managing a team of 10 sales representatives. Drove sales through consultative customer meetings, developed team performance, and created a strong customer experience. Worked actively with performance targets, follow-up, and strategies to increase profitability. Advanced quickly to become Sweden's youngest store manager at age 22.</div>
+          <div class="timeline-desc" data-en>Responsible for sales, operations, and team leadership at the Frölunda store, managing a team of 10 sales representatives. Drove sales through consultative customer meetings, developed team performance, and built a strong customer experience. Worked actively with performance targets, follow-up, and strategies to increase profitability. Advanced quickly to become Sweden's youngest store manager at age 22.</div>
         </div>
       </div>
 
@@ -753,7 +796,7 @@
       <div class="case-card">
         <div class="case-logo">Salt & Sill</div>
         <h3 class="case-title" data-sv>+14% digital försäljning: en restaurang som vände pandemi till möjlighet</h3>
-        <h3 class="case-title" data-en>+14% digital sales: a restaurant that turned the pandemic into opportunity</h3>
+        <h3 class="case-title" data-en>+14% digital sales: a restaurant that turned the pandemic into an opportunity</h3>
         <p class="case-desc" data-sv>Salt & Sill behövde en tydlig digital strategi för att nå ut till sina gäster. Vi tog fram en kommunikationsmall och lanserade Google Ads-kampanjer som ökade den digitala försäljningen med 14% under 2020. När pandemin slog till ledde vi ett snabbt omställningsarbete med framgångsrika kampanjer som Julbordsvandring, Sail In och utomhuslunch, som höll verksamheten levande i ett extremt utmanande läge.</p>
         <p class="case-desc" data-en>Salt & Sill needed a clear digital strategy to reach their guests. We developed a communication template and launched Google Ads campaigns that increased digital sales by 14% in 2020. When the pandemic hit, we led a rapid pivot, with successful campaigns including Christmas Table Walk, Sail In and Outdoor Lunch, keeping the business alive in an extremely challenging environment.</p>
         <div class="case-results">
@@ -1025,7 +1068,7 @@
           <strong data-sv>Yngste butikschefen</strong>
           <strong data-en>Sweden's youngest store manager</strong>
           <span data-sv>Sveriges yngsta butikschef på HiFi Klubben vid 22 år. Månad efter månad toppsäljare på Elgiganten.</span>
-          <span data-en>Sweden's youngest store manager at HiFi Klubben at age 22. Consistently top salesperson at Elgiganten month after month.</span>
+          <span data-en>HiFi Klubben's youngest store manager in Sweden, at 22. Consistently top salesperson at Elgiganten month after month.</span>
         </div>
       </div>
       <div class="merit-card">
@@ -1145,6 +1188,177 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
+
+// ── Global floating background icons (white sections only, behind content) ──
+(function () {
+  const ICONS = [
+    // Competency chips
+    `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
+    `<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>`,
+    `<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>`,
+    `<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>`,
+    `<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>`,
+    `<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>`,
+    `<path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41L13.7 2.71a2.41 2.41 0 0 0-3.41 0Z"/>`,
+    `<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>`,
+    `<rect x="9" y="9" width="6" height="6"/><path d="M15 9V5h-2M9 9V5h2M15 15v4h-2M9 15v4h2M15 9h4v2M15 15h4v-2M9 9H5v2M9 15H5v-2"/>`,
+    `<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>`,
+    `<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>`,
+    `<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 7h3v3H7zM14 7h3M14 11h3M7 14h10"/>`,
+    // Platform icons
+    `<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>`,
+    `<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>`,
+    `<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>`,
+    `<path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>`,
+    `<polygon points="5 3 19 12 5 21 5 3"/>`,
+    `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`,
+    `<path d="M18 6 6 18M6 6l12 12"/>`,
+    `<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>`,
+    `<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
+    `<path d="M3 11l19-9-9 19-2-8-8-2z"/>`,
+    `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
+    `<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>`,
+  ];
+
+  // White sections to add icons to (grey/dark sections excluded)
+  const WHITE_SELECTORS = ['.hero', '#about', '#cases', '#education'];
+  const MAX_PER_SECTION = 5;
+  const counters = new Map();
+
+  // Get or create the icon canvas inside a section
+  function getCanvas(section) {
+    let canvas = section.querySelector('.section-bg-icons');
+    if (!canvas) {
+      canvas = document.createElement('div');
+      canvas.className = 'section-bg-icons';
+      canvas.setAttribute('aria-hidden', 'true');
+      section.insertBefore(canvas, section.firstChild);
+    }
+    return canvas;
+  }
+
+  function spawnInSection(section) {
+    const count = counters.get(section) || 0;
+    if (count >= MAX_PER_SECTION) return;
+    counters.set(section, count + 1);
+
+    const canvas = getCanvas(section);
+    const w = section.offsetWidth  || 800;
+    const h = section.offsetHeight || 400;
+
+    const inner = ICONS[Math.floor(Math.random() * ICONS.length)];
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '1.5');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.innerHTML = inner;
+    svg.classList.add('bg-icon');
+
+    const size = 20 + Math.random() * 22;        // 20–42 px
+    const x    = 0.05 * w + Math.random() * 0.90 * w;
+    const y    = 0.05 * h + Math.random() * 0.90 * h;
+    const dur  = 12 + Math.random() * 8;          // 12–20 s
+    const dx   = (Math.random() - 0.5) * 40;
+    const dy   = -(40 + Math.random() * 45);
+    const r0   = (Math.random() - 0.5) * 28;
+    const r1   = r0 + (Math.random() - 0.5) * 18;
+    const op   = (0.07 + Math.random() * 0.05).toFixed(3); // 0.07–0.12
+
+    svg.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+    svg.style.setProperty('--t',  dur + 's');
+    svg.style.setProperty('--dx', dx  + 'px');
+    svg.style.setProperty('--dy', dy  + 'px');
+    svg.style.setProperty('--r0', r0  + 'deg');
+    svg.style.setProperty('--r1', r1  + 'deg');
+    svg.style.setProperty('--op', op);
+
+    canvas.appendChild(svg);
+    setTimeout(() => {
+      svg.remove();
+      counters.set(section, (counters.get(section) || 1) - 1);
+    }, dur * 1000 + 200);
+  }
+
+  const sections = WHITE_SELECTORS.flatMap(sel => [...document.querySelectorAll(sel)]);
+
+  // Pre-populate each section staggered
+  sections.forEach((sec, si) => {
+    for (let i = 0; i < MAX_PER_SECTION; i++) {
+      setTimeout(() => spawnInSection(sec), (si * MAX_PER_SECTION + i) * 220);
+    }
+  });
+
+  // Replenish every section on an interval
+  setInterval(() => {
+    sections.forEach(sec => {
+      const count = counters.get(sec) || 0;
+      if (count < MAX_PER_SECTION) spawnInSection(sec);
+    });
+  }, 900);
+})();
+
+// ── Chip hover particles ──────────────────────────────────────────
+(function () {
+  const section = document.querySelector('.tools-section');
+  if (!section) return;
+
+  function spawnParticles(chip) {
+    const svgEl = chip.querySelector('.chip-icon');
+    if (!svgEl) return;
+
+    // Grab the inner SVG markup (paths, circles, etc.)
+    const inner   = svgEl.innerHTML;
+    const vb      = svgEl.getAttribute('viewBox') || '0 0 24 24';
+    const secRect = section.getBoundingClientRect();
+    const chipRect = chip.getBoundingClientRect();
+
+    // Spawn 7 particles per hover
+    const count = 7;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      p.setAttribute('viewBox', vb);
+      p.setAttribute('fill', 'none');
+      p.setAttribute('stroke', 'currentColor');
+      p.setAttribute('stroke-width', '1.8');
+      p.setAttribute('stroke-linecap', 'round');
+      p.setAttribute('stroke-linejoin', 'round');
+      p.innerHTML = inner;
+
+      // Random position across the full section width, vertically near chip
+      const size   = 18 + Math.random() * 20;        // 18–38 px
+      const startX = chipRect.left - secRect.left + (Math.random() - 0.3) * chipRect.width * 2.5;
+      const startY = chipRect.top  - secRect.top  + chipRect.height * 0.2 + Math.random() * chipRect.height * 0.5;
+      const rot0   = (Math.random() - 0.5) * 20 + 'deg';
+      const rot1   = (Math.random() - 0.5) * 40 + 'deg';
+      const dur    = (1.2 + Math.random() * 0.8).toFixed(2) + 's';
+      const delay  = (i * 0.07).toFixed(2) + 's';
+
+      p.classList.add('chip-particle');
+      p.style.width  = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left   = startX + 'px';
+      p.style.top    = startY + 'px';
+      p.style.setProperty('--dur',  dur);
+      p.style.setProperty('--sc',   (0.7 + Math.random() * 0.6).toFixed(2));
+      p.style.setProperty('--rot0', rot0);
+      p.style.setProperty('--rot1', rot1);
+      p.style.animationDelay = delay;
+
+      section.appendChild(p);
+
+      // Remove after animation ends to keep DOM clean
+      const total = (parseFloat(dur) + parseFloat(delay)) * 1000 + 100;
+      setTimeout(() => p.remove(), total);
+    }
+  }
+
+  document.querySelectorAll('.tool-chip').forEach(chip => {
+    chip.addEventListener('mouseenter', () => spawnParticles(chip));
+  });
+})();
 </script>
 
 </body>
